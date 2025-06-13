@@ -1,10 +1,22 @@
 package seleccion;
+import filtros.TablaParcial;
 import gestiondedatos.*;
 import visualizador.Visualizador;
 import gestiondeerrores.ExcepcionOperacionNoValida;
 
 import java.util.List;
 import java.util.ArrayList;
+
+/** La clase 'Seleccion' se instancia ingresando un objeto Tabla en su constructor.
+ * Una vez instanciada la clase "Seleccion" se pueden utilizar los metodos:
+ *
+ * @head(numfilas) -> Muestra las primeras filas de la tabla indicada por parametro.
+ *
+ * @tail(numfilas) -> Muestra las ultimas filas de la tabla indicada por parametro.
+ *
+ * @seleccionar(etiquetasFilasSeleccionadas, etiquetasColumnasSeleccionadas) -> Muestra las filas y
+ * columnas seleccionadas de acuerdo a las etiquetas ingresadas por parametro.
+ */
 
 public class Seleccion {
 
@@ -14,7 +26,10 @@ public class Seleccion {
         this.tabla = tabla;
     }
 
+
+    // Muestra las primeras x filas de la tabla
     public void head(int numFilas) {
+
         int filasExistentes = tabla.contarFilas();
 
         if (numFilas <= 0) {
@@ -33,9 +48,12 @@ public class Seleccion {
 
         List<Etiqueta> etiquetasColumnasSeleccionadas = tabla.getEtiquetasColumnas();
 
-        seleccionar(etiquetasFilasSeleccionadas, etiquetasColumnasSeleccionadas);
+        Tabla tablaParcial = TablaParcial.crearTablaParcial(this.tabla,etiquetasFilasSeleccionadas,etiquetasColumnasSeleccionadas);
+        Visualizador.imprimirTabla(tablaParcial);
+
     }
 
+    // Muestra ultimas x filas de la tabla
     public void tail(int numFilas) {
         int filasExistentes = tabla.contarFilas();
 
@@ -56,47 +74,15 @@ public class Seleccion {
         }
 
         List<Etiqueta> etiquetasColumnasSeleccionadas = tabla.getEtiquetasColumnas();
-        seleccionar(etiquetasFilasSeleccionadas, etiquetasColumnasSeleccionadas);
+        Tabla tablaParcial = TablaParcial.crearTablaParcial(this.tabla, etiquetasFilasSeleccionadas, etiquetasColumnasSeleccionadas);
+        Visualizador.imprimirTabla(tablaParcial);
     }
 
+    // Seleccionamos de manera parcial la tabla, a partir listas de etiquetas de filas y columnas
+    // retorna una vista de la seleccion parcial
+
     public void seleccionar(List<Etiqueta> etiquetasFilasSeleccionadas, List<Etiqueta> etiquetasColumnasSeleccionadas) {
-        // Validaciones iniciales para las etiquetas
-        if (etiquetasFilasSeleccionadas == null || etiquetasFilasSeleccionadas.isEmpty()) {
-            throw new ExcepcionOperacionNoValida("No se especificaron etiquetas de fila para la selección. No se puede realizar la operación.");
-        }
-        if (etiquetasColumnasSeleccionadas == null || etiquetasColumnasSeleccionadas.isEmpty()) {
-            throw new ExcepcionOperacionNoValida("No se especificaron etiquetas de columna para la selección. No se puede realizar la operación.");
-        }
-
-        for (Etiqueta etiqueta : etiquetasFilasSeleccionadas) {
-            if (!(tabla.getEtiquetasFilas().contains(etiqueta))) {
-                throw new ExcepcionOperacionNoValida("La etiqueta de fila (" + etiqueta.getValor() + ") no existe en la tabla.");
-            }
-        }
-
-        for (Etiqueta etiqueta : etiquetasColumnasSeleccionadas) {
-            if (!(tabla.getEtiquetasColumnas().contains(etiqueta))) {
-                throw new ExcepcionOperacionNoValida("La etiqueta de columna (" + etiqueta.getValor() + ") no existe en la tabla.");
-            }
-        }
-
-        Tabla tablaParcial = new Tabla(); // creamos una tablaParcial, agregamos los datos a visualizar en consola
-
-        for (Etiqueta etiquetaColumna : etiquetasColumnasSeleccionadas) {
-            TipoDato tipo = tabla.getTipoDatoColumna(etiquetaColumna); //obtengo el tipo de dato en esa columna
-
-            List<Celda<?>> celdasColumnas = new ArrayList<>();
-
-            for (Etiqueta etiquetaFila : etiquetasFilasSeleccionadas) {
-                Celda<?> celda = tabla.getCelda(etiquetaColumna, etiquetaFila);
-                //deberia agregarse a una lista de celdas
-                celdasColumnas.add(celda); //agregamos todas las celdas que necesitamos en nuestra columna, de acuerdo a las filas especificadas
-            }
-
-            Columna columna = new Columna(tipo, celdasColumnas); /// hago una columna, "acortada" por las celdas seleccionadas
-            tablaParcial.agregarColumna(etiquetaColumna, columna); /// agrego nueva columna, continua con el proceso para la siguiente columna
-        }
-        tablaParcial.agregarEtiquetasFila(etiquetasFilasSeleccionadas); /// Siempre coloco las etiquetas, para que no se generen automaticamente
+        Tabla tablaParcial = TablaParcial.crearTablaParcial(this.tabla, etiquetasFilasSeleccionadas, etiquetasColumnasSeleccionadas);
         Visualizador.imprimirTabla(tablaParcial);
     }
 }
