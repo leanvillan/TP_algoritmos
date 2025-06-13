@@ -44,6 +44,9 @@ public class OperacionMedia implements Sumarizador {
         // Calcula la media dividiendo la suma total por el conteo de valores válidos.
         double media = suma / conteoValoresValidos;
 
+        // Redondeo a dos decimales
+        media = Math.round(media * 100.0) / 100.0;
+
         // Retorna una nueva Celda con la media calculada (como Double) y el tipo NUMERICO.
         return new Celda(media, TipoDato.NUMERICO);
     }

@@ -3,7 +3,7 @@ package entradaysalida;
 import gestiondedatos.*;
 import java.io.*;
 import java.util.*;
-import gestiondeerrores.ExcepcionCargaDatos;
+import gestiondeerrores.*;
 
 /**
  * La clase 'GestorCSV' permite cargar y guardar archivos CSV en una estructura de tabla.
@@ -104,29 +104,29 @@ public class GestorCSV {
                             filaCeldas.add(new Celda<>(Double.parseDouble(valor), tipo));
                         } catch (NumberFormatException e) {
                             filaCeldas.add(new Celda<>());
-                            ManejadorExcepciones.lanzarAdvertencia("Valor no numérico en columna '" + etiquetas.get(col) + "': " + valor);
+                            GestionErrores.logAdvertencia("Valor no numérico en columna '" + etiquetas.get(col) + "': " + valor);
                         }
 
                     } else if (tipo == TipoDato.BOOLEANO) {
                         if (valor.equalsIgnoreCase("true") || valor.equalsIgnoreCase("false")) {
                             filaCeldas.add(new Celda<>(Boolean.parseBoolean(valor.toLowerCase()), tipo));
                         } else {
-                            filaCeldas.add(new Celda<>());  // si no es valido, celda vacía
-                            ManejadorExcepciones.lanzarAdvertencia("Valor no booleano en columna '" + etiquetas.get(col) + "': " + valor); 
+                            filaCeldas.add(new Celda<>());
+                            GestionErrores.logAdvertencia("Valor no booleano en columna '" + etiquetas.get(col) + "': " + valor);
                         }
 
                     } else {
                         if (esNumerico(valor) || esBooleano(valor)) {
-                            ManejadorExcepciones.lanzarAdvertencia("Valor numérico o booleano en columna de texto '" + etiquetas.get(col) + "': " + valor);
+                            GestionErrores.logAdvertencia("Valor numérico o booleano en columna de texto '" + etiquetas.get(col) + "': " + valor);
                         }
-                        filaCeldas.add(new Celda<>(valor, tipo));   // creamos celda con el valor
+                        filaCeldas.add(new Celda<>(valor, tipo));
                     }
                 }
                 tabla.agregarFila(filaCeldas);
             }
 
         } catch (IOException e) {
-            throw new ExcepcionCargaDatos("Error al leer el archivo CSV: " + e.getMessage());
+            throw new gestiondeerrores.ExcepcionCargaDatos("Error al leer el archivo CSV: " + e.getMessage());
         }
 
         return tabla;
@@ -152,7 +152,6 @@ public class GestorCSV {
 
         for (String v : valores) {
             if (v.isEmpty()) continue;
-
             if (!esNumerico(v)) todosNumericos = false;
             if (!esBooleano(v)) todosBooleanos = false;
         }
@@ -194,11 +193,11 @@ public class GestorCSV {
                         bw.write(delimitador); 
                     }
                 }
-                bw.newLine();  // nueva linea despues de cada fila
+                bw.newLine();
             }
 
         } catch (IOException e) {
-            throw new ExcepcionCargaDatos("Error al guardar el archivo CSV: " + e.getMessage());
+            throw new gestiondeerrores.ExcepcionCargaDatos("Error al guardar el archivo CSV: " + e.getMessage());
         }
     }
 }

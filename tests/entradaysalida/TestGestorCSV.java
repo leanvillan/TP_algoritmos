@@ -51,7 +51,7 @@ public class TestGestorCSV {
         }
     }
 
-    //mstramos por pantalla la tabla en formato simple sin el uso de visualizador, porque esto es solo para probar el paquete actual
+    //mostramos por pantalla la tabla en formato simple sin el uso de visualizador, porque esto es solo para probar el paquete actual
     private static void imprimirTabla(Tabla tabla) {
         //imprimimos el encabezado
         for (Etiqueta et : tabla.getEtiquetasColumnas()) {

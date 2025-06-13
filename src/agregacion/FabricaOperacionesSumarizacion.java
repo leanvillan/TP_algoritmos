@@ -1,6 +1,13 @@
 package agregacion;
 
+/**
+ * Fábrica que retorna una estrategia de sumarización según el tipo de operación solicitado.
+ */
+
 public class FabricaOperacionesSumarizacion {
+
+    // Devuelve la implementación de sumarizador correspondiente al tipo de operación.
+
     public Sumarizador obtenerEstrategia(TipoOperacion tipoOperacion) {
         switch (tipoOperacion) {
             case SUMA:

@@ -1,8 +1,4 @@
 package gestiondeerrores;
-
-
-import entradaysalida.ManejadorExcepciones;
-
 /**
  * tests para ManejadorExcepciones.
  * chequeamos que los mensajes se imprimen correctamente
@@ -11,13 +7,13 @@ public class TestGestionDeErrores {
     public static void main(String[] args) {
         System.out.println("---- Prueba de Gestión de Errores ----");
 
-        //testde mensaje de error
+        //test mensaje de error
         System.out.println("Lanzando un error:");
-        ManejadorExcepciones.lanzarExcepcion("Este es un mensaje de error de prueba.");
+        GestionErrores.logError("Este es un mensaje de error de prueba.");
 
         //test mensaje de advertencia
         System.out.println("Lanzando una advertencia:");
-        ManejadorExcepciones.lanzarAdvertencia("Este es un mensaje de advertencia de prueba.");
+        GestionErrores.logAdvertencia("Este es un mensaje de advertencia de prueba.");
 
         //test ExcepcionValidacion personalizada
         System.out.println("Lanzando excepción personalizada:");

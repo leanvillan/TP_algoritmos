@@ -33,6 +33,9 @@ public class OperacionDesvioEstandar implements Sumarizador {
         // El desvío estándar es la raíz cuadrada de la varianza.
         double desvioEstandar = Math.sqrt(varianza);
 
+        // Redondeo a dos decimales
+        desvioEstandar = Math.round(desvioEstandar * 100.0) / 100.0;
+
         // Se retorna una nueva Celda con el desvío estándar calculado (como Double)
         // y el tipo de dato NUMERICO.
         return new Celda(desvioEstandar, TipoDato.NUMERICO);

@@ -72,6 +72,9 @@ public class OperacionVarianza implements Sumarizador {
         // Se divide por (n - 1) para la varianza muestral.
         double varianza = sumaCuadradosDiferencias / (valoresNumericos.size() - 1);
 
+        // Redondeo a dos decimales
+        varianza = Math.round(varianza * 100.0) / 100.0;
+
         // Retorna una nueva Celda con la varianza calculada (como Double) y el tipo NUMERICO.
         return new Celda(varianza, TipoDato.NUMERICO);
     }
