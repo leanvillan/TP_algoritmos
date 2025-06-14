@@ -24,12 +24,3 @@ public class MedidorEficiencia {
     }
 
 }
-
-
-/**El método medirTiempo() recibe una descripción en forma de String 
- * y un bloque de código a ejecutar.
- * 
- * Usa una expresión lambda que representa la tarea a ejecutar 
- * 
- * Podría haberlo hecho más tosco, pero así es mucho más facil de implementar,
- * y además por ahi nos suben un puntito porque es de lo ultimo ultimo del repo je*/

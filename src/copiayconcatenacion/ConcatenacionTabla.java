@@ -12,37 +12,29 @@ public class ConcatenacionTabla {
 
     public static Tabla concatenarTablas(Tabla tabla1, Tabla tabla2) {
         if (tabla1 == null) {
-            throw new ExcepcionValidacion("La primera tabla no puede ser nula para" +
-                    " la concatenación.");
+            throw new ExcepcionValidacion("La primera tabla no puede ser nula para la concatenación.");
         }
         if (tabla2 == null) {
-            throw new ExcepcionValidacion("La segunda tabla no puede ser nula para" +
-                    " la concatenación.");
+            throw new ExcepcionValidacion("La segunda tabla no puede ser nula para la concatenación.");
         }
 
         // Validar que ambas tablas tengan la misma estructura de columnas
         if (!columnasCoinciden(tabla1, tabla2)) {
-            throw new ExcepcionValidacion("Las columnas de ambas tablas no coinciden." +
-                    " No se puede concatenar.");
+            throw new ExcepcionValidacion("Las columnas de ambas tablas no coinciden. No se puede concatenar.");
         }
 
         Tabla tablaResultante = new Tabla();
 
-        // Copiar columnas desde la primera tabla (estructura + celdas)
+        // Crear columnas vacías con las etiquetas de la primera tabla
         for (Etiqueta etCol : tabla1.getEtiquetasColumnas()) {
-            tablaResultante.agregarColumna(etCol, tabla1.getColumna(etCol).copiar());
+            TipoDato tipo = tabla1.getTipoDatoColumna(etCol);
+            Columna columnaVacia = new Columna(tipo);
+            tablaResultante.agregarColumna(etCol, columnaVacia);
         }
 
-        int indiceNuevaEtiquetaNumerica = 0;
-
-        // Copiar filas de la primera tabla
-        copiarFilasEnTabla(tabla1, tablaResultante, indiceNuevaEtiquetaNumerica);
-
-        // Actualizar el contador de índice
-        indiceNuevaEtiquetaNumerica = tablaResultante.contarFilas();
-
-        // Copiar filas de la segunda tabla
-        copiarFilasEnTabla(tabla2, tablaResultante, indiceNuevaEtiquetaNumerica);
+        // Agregar todas las filas de ambas tablas
+        copiarFilasEnTabla(tabla1, tablaResultante, 0);
+        copiarFilasEnTabla(tabla2, tablaResultante, tabla1.contarFilas());
 
         return tablaResultante;
     }
