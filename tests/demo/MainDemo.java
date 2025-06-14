@@ -48,23 +48,18 @@ public class MainDemo {
 
             // 3. FILTRADO DE LA TABLA (Edad > 25)
             System.out.println("Filtrando las filas donde Edad > 25...");
-            
+
             Etiqueta etiquetaEdad = new EtiquetaString("Edad");
-            Filtro filtroEdad = new Mayor((Object) 25.0); // solo se compara el valor
-            Filtrado filtrador = new Filtrado(tabla);
-            Tabla tablaFiltrada = filtrador.filtrarComparador(etiquetaEdad, filtroEdad);
-            System.out.println("Resultado del filtrado:");
-            Visualizador.imprimirTabla(tablaFiltrada);
+            tabla.filtroSimple(etiquetaEdad, TipoComparador.MAYOR, 25.0);
             
             System.out.println("Filtrado completo.\n");
 
 
-            // 4. ORDENAMIENTO POR EDAD ASCENDENTE (sobre copia)
+            // 4. ORDENAMIENTO POR EDAD ASCENDENTE
             System.out.println("Ordenando la tabla por Edad (ascendente)...");
-            
-            Tabla copiaOrdenada = CopiaTabla.copiarTabla(tabla);  // Hacemos una copia de la tabla original
-            OrdenadorDatos ordenador = new OrdenadorDatos(List.of("Edad")); // Criterio fijo
-            ordenador.manipular(copiaOrdenada); // Ordena in-place
+
+            Tabla copiaOrdenada = CopiaTabla.copiarTabla(tabla);
+            copiaOrdenada.ordenarDatos(List.of("Edad"));
             System.out.println("Resultado del ordenamiento:");
             Visualizador.imprimirTabla(copiaOrdenada);
 
