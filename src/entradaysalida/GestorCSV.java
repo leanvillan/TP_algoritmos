@@ -123,6 +123,7 @@ public class GestorCSV {
                     }
                 }
                 tabla.agregarFila(filaCeldas);
+                
             }
 
         } catch (IOException e) {
